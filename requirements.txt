@@ -1,0 +1,33 @@
+# Sales Performance Analytics - Python Dependencies
+# ================================================
+
+# Data Processing
+pandas>=1.5.0
+numpy>=1.21.0
+
+# API Requests
+requests>=2.28.0
+
+# Database
+sqlite3  # Built into Python standard library
+
+# Data Visualization (optional - for advanced analysis)
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Jupyter Notebook (optional - for interactive analysis)
+jupyter>=1.0.0
+ipython>=8.0.0
+
+# Data Export/Import
+openpyxl>=3.0.0  # For Excel file handling
+
+# Testing (optional)
+pytest>=7.0.0
+
+# Installation Instructions:
+# ========================
+# pip install -r requirements.txt
+#
+# Or install individually:
+# pip install pandas numpy requests matplotlib seaborn jupyter openpyxl

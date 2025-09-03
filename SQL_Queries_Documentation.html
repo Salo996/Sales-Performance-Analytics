@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Performance Analytics - SQL Queries Documentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #27ae60;
+            margin-top: 25px;
+        }
+        .query-block {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .sql-code {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .explanation {
+            background-color: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .business-impact {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .difficulty-easy {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .difficulty-medium {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .difficulty-hard {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .key-concepts {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        ul {
+            margin: 10px 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .header-info {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Sales Performance Analytics</h1>
+        <p class="header-info">
+            <strong>Project:</strong> Sales Performance Analytics Dashboard<br>
+            <strong>Data Source:</strong> DummyJSON API (https://dummyjson.com/)<br>
+            <strong>Created by:</strong> Salomón Santiago Esquivel<br>
+            <strong>Purpose:</strong> Data Analyst Portfolio Project 2
+        </p>
+
+        <h2>🎯 Project Overview</h2>
+        <div class="explanation">
+            <p><strong>Objective:</strong> Analyze sales performance using real API data to demonstrate SQL skills, business intelligence, and data visualization capabilities for entry-level Data Analyst positions in Mexico.</p>
+            
+            <p><strong>Key Business Questions:</strong></p>
+            <ul>
+                <li>Which product categories generate the most revenue?</li>
+                <li>How do different customer segments behave?</li>
+                <li>What are our top-performing products by rating and sales?</li>
+                <li>How do sales trends vary over time?</li>
+                <li>Who are our most valuable customers?</li>
+            </ul>
+        </div>
+
+        <h2>📋 Data Structure Overview</h2>
+        <div class="key-concepts">
+            <h3>Main Tables from DummyJSON API:</h3>
+            <ul>
+                <li><strong>products:</strong> id, title, price, category, brand, rating, stock, discountPercentage</li>
+                <li><strong>users:</strong> id, firstName, lastName, age, email, address</li>
+                <li><strong>carts:</strong> id, userId, products (array), total, totalProducts, totalQuantity</li>
+            </ul>
+        </div>
+
+        <h2>🔍 SQL Queries Documentation</h2>
+
+        <!-- QUERY 1 -->
+        <div class="query-block">
+            <h3>Query 1: Revenue Analysis by Category <span class="difficulty-easy">EASY</span></h3>
+            
+            <div class="business-impact">
+                <strong>Business Question:</strong> Which product categories are our biggest revenue drivers?
+            </div>
+
+            <div class="sql-code">-- Revenue Analysis by Category
+SELECT 
+    category,
+    COUNT(*) as total_products,
+    AVG(price) as avg_price,
+    SUM(price * stock) as potential_revenue,
+    AVG(rating) as avg_category_rating
+FROM products 
+WHERE stock > 0  -- Only consider products in stock
+GROUP BY category 
+ORDER BY potential_revenue DESC;</div>
+
+            <div class="explanation">
+                <h4>🔍 Step-by-Step Explanation:</h4>
+                <ol>
+                    <li><strong>SELECT clause:</strong> We're selecting the category name and calculating multiple metrics</li>
+                    <li><strong>COUNT(*):</strong> Counts how many products exist in each category</li>
+                    <li><strong>AVG(price):</strong> Calculates the average price per category</li>
+                    <li><strong>SUM(price * stock):</strong> Estimates total potential revenue (price × available stock)</li>
+                    <li><strong>AVG(rating):</strong> Shows average customer satisfaction per category</li>
+                    <li><strong>WHERE stock > 0:</strong> Filters out out-of-stock products</li>
+                    <li><strong>GROUP BY category:</strong> Groups all products by their category</li>
+                    <li><strong>ORDER BY:</strong> Sorts results by potential revenue (highest first)</li>
+                </ol>
+            </div>
+
+            <div class="key-concepts">
+                <strong>SQL Concepts Used:</strong> Basic aggregation, GROUP BY, WHERE clause, mathematical operations, ORDER BY
+            </div>
+        </div>
+
+        <!-- QUERY 2 -->
+        <div class="query-block">
+            <h3>Query 2: Customer Segmentation Analysis <span class="difficulty-easy">EASY-MEDIUM</span></h3>
+            
+            <div class="business-impact">
+                <strong>Business Question:</strong> How can we segment our customers by demographics for targeted marketing?
+            </div>
+
+            <div class="sql-code">-- Customer Segmentation by Age Groups
+SELECT 
+    CASE 
+        WHEN age < 25 THEN 'Gen Z (Under 25)'
+        WHEN age BETWEEN 25 AND 35 THEN 'Millennials (25-35)'
+        WHEN age BETWEEN 36 AND 50 THEN 'Gen X (36-50)'
+        ELSE 'Boomers (50+)'
+    END as age_segment,
+    COUNT(*) as customer_count,
+    ROUND(AVG(age), 1) as avg_age,
+    COUNT(*) * 100.0 / (SELECT COUNT(*) FROM users) as percentage_of_total
+FROM users 
+GROUP BY 
+    CASE 
+        WHEN age < 25 THEN 'Gen Z (Under 25)'
+        WHEN age BETWEEN 25 AND 35 THEN 'Millennials (25-35)'
+        WHEN age BETWEEN 36 AND 50 THEN 'Gen X (36-50)'
+        ELSE 'Boomers (50+)'
+    END
+ORDER BY customer_count DESC;</div>
+
+            <div class="explanation">
+                <h4>🔍 Step-by-Step Explanation:</h4>
+                <ol>
+                    <li><strong>CASE WHEN:</strong> Creates age segments based on common generational definitions</li>
+                    <li><strong>COUNT(*):</strong> Counts customers in each segment</li>
+                    <li><strong>ROUND(AVG(age), 1):</strong> Calculates average age per segment, rounded to 1 decimal</li>
+                    <li><strong>Subquery calculation:</strong> (SELECT COUNT(*) FROM users) gets total customer count</li>
+                    <li><strong>Percentage calculation:</strong> Shows what % of customers each segment represents</li>
+                    <li><strong>GROUP BY the CASE statement:</strong> Groups customers by the age segments we created</li>
+                </ol>
+            </div>
+
+            <div class="key-concepts">
+                <strong>SQL Concepts Used:</strong> CASE WHEN (conditional logic), subqueries, percentage calculations, ROUND function
+            </div>
+        </div>
+
+        <!-- QUERY 3 -->
+        <div class="query-block">
+            <h3>Query 3: Product Performance Ranking <span class="difficulty-medium">MEDIUM</span></h3>
+            
+            <div class="business-impact">
+                <strong>Business Question:</strong> Which products perform best within their categories, considering both rating and stock movement?
+            </div>
+
+            <div class="sql-code">-- Product Performance with Category Rankings
+SELECT 
+    category,
+    title as product_name,
+    brand,
+    price,
+    rating,
+    stock,
+    discountPercentage as discount_pct,
+    -- Ranking products within their category by rating
+    RANK() OVER (PARTITION BY category ORDER BY rating DESC) as rating_rank,
+    -- Ranking by potential sales (price * stock)
+    RANK() OVER (PARTITION BY category ORDER BY (price * stock) DESC) as revenue_potential_rank,
+    -- Overall performance score combining rating and stock
+    ROUND(rating * stock, 2) as performance_score
+FROM products 
+WHERE stock > 0 
+    AND rating >= 4.0  -- Only high-rated products
+ORDER BY category, rating_rank;</div>
+
+            <div class="explanation">
+                <h4>🔍 Step-by-Step Explanation:</h4>
+                <ol>
+                    <li><strong>RANK() OVER (PARTITION BY...):</strong> This is a window function that ranks products within each category</li>
+                    <li><strong>PARTITION BY category:</strong> Creates separate rankings for each category (not comparing across categories)</li>
+                    <li><strong>ORDER BY rating DESC:</strong> Ranks by rating from highest to lowest</li>
+                    <li><strong>Two different rankings:</strong> One by rating, one by revenue potential</li>
+                    <li><strong>Performance score:</strong> Custom metric combining rating and stock levels</li>
+                    <li><strong>Multiple WHERE conditions:</strong> Only shows in-stock, high-rated products</li>
+                </ol>
+            </div>
+
+            <div class="key-concepts">
+                <strong>SQL Concepts Used:</strong> Window functions, RANK(), PARTITION BY, multiple ORDER BY criteria, compound WHERE conditions
+            </div>
+        </div>
+
+        <!-- QUERY 4 -->
+        <div class="query-block">
+            <h3>Query 4: Category Performance Analysis <span class="difficulty-medium">MEDIUM</span></h3>
+            
+            <div class="business-impact">
+                <strong>Business Question:</strong> How do different categories perform across price ranges and stock levels?
+            </div>
+
+            <div class="sql-code">-- Category Performance Analysis with Price Segmentation
+SELECT 
+    category,
+    -- Price segmentation
+    CASE 
+        WHEN price < 50 THEN 'Budget (Under $50)'
+        WHEN price BETWEEN 50 AND 200 THEN 'Mid-Range ($50-$200)'
+        WHEN price BETWEEN 200 AND 500 THEN 'Premium ($200-$500)'
+        ELSE 'Luxury (Over $500)'
+    END as price_segment,
+    COUNT(*) as product_count,
+    ROUND(AVG(price), 2) as avg_price_in_segment,
+    ROUND(AVG(rating), 2) as avg_rating,
+    SUM(stock) as total_stock_available,
+    -- Stock status analysis
+    SUM(CASE WHEN stock < 10 THEN 1 ELSE 0 END) as low_stock_products,
+    SUM(CASE WHEN stock >= 50 THEN 1 ELSE 0 END) as high_stock_products,
+    -- Revenue potential by segment
+    ROUND(SUM(price * stock), 2) as revenue_potential,
+    -- Market share within category
+    ROUND(COUNT(*) * 100.0 / 
+        (SELECT COUNT(*) FROM products p2 WHERE p2.category = products.category), 2
+    ) as pct_of_category
+FROM products 
+WHERE rating >= 3.0  -- Focus on decent quality products
+GROUP BY 
+    category, 
+    CASE 
+        WHEN price < 50 THEN 'Budget (Under $50)'
+        WHEN price BETWEEN 50 AND 200 THEN 'Mid-Range ($50-$200)'
+        WHEN price BETWEEN 200 AND 500 THEN 'Premium ($200-$500)'
+        ELSE 'Luxury (Over $500)'
+    END
+HAVING COUNT(*) >= 2  -- Only show segments with multiple products
+ORDER BY category, avg_price_in_segment;</div>
+
+            <div class="explanation">
+                <h4>🔍 Step-by-Step Explanation:</h4>
+                <ol>
+                    <li><strong>Price segmentation CASE:</strong> Creates meaningful price tiers for analysis</li>
+                    <li><strong>Multiple aggregations:</strong> COUNT, AVG, SUM working together</li>
+                    <li><strong>Conditional counting:</strong> SUM(CASE WHEN...) counts products meeting criteria</li>
+                    <li><strong>Correlated subquery:</strong> Calculates percentage within each category</li>
+                    <li><strong>HAVING clause:</strong> Filters groups after aggregation (not individual rows)</li>
+                    <li><strong>Business logic:</strong> Combines price analysis with stock management insights</li>
+                </ol>
+            </div>
+
+            <div class="key-concepts">
+                <strong>SQL Concepts Used:</strong> CASE WHEN, multiple aggregations, conditional counting, correlated subqueries, HAVING clause, GROUP BY multiple columns
+            </div>
+        </div>
+
+        <!-- QUERY 5 -->
+        <div class="query-block">
+            <h3>Query 5: Advanced Customer Purchase Analysis <span class="difficulty-hard">MEDIUM-HARD</span></h3>
+            
+            <div class="business-impact">
+                <strong>Business Question:</strong> Which customers show the best purchasing patterns and should be prioritized for retention?
+            </div>
+
+            <div class="sql-code">-- Advanced Customer Purchase Pattern Analysis
+SELECT 
+    u.firstName,
+    u.lastName,
+    u.age,
+    -- Age group classification
+    CASE 
+        WHEN u.age < 30 THEN 'Young Adult'
+        WHEN u.age BETWEEN 30 AND 45 THEN 'Prime Adult'  
+        ELSE 'Mature Adult'
+    END as age_group,
+    -- Purchase behavior metrics
+    COUNT(DISTINCT c.id) as total_orders,
+    ROUND(AVG(c.total), 2) as avg_order_value,
+    ROUND(SUM(c.total), 2) as total_spent,
+    SUM(c.totalQuantity) as total_items_bought,
+    -- Purchase frequency analysis
+    CASE 
+        WHEN COUNT(DISTINCT c.id) >= 3 THEN 'Frequent Buyer'
+        WHEN COUNT(DISTINCT c.id) = 2 THEN 'Repeat Customer'
+        ELSE 'One-Time Buyer'
+    END as purchase_frequency,
+    -- Value segmentation
+    CASE 
+        WHEN SUM(c.total) >= 1500 AND COUNT(DISTINCT c.id) >= 3 THEN 'Premium Customer'
+        WHEN SUM(c.total) >= 800 AND COUNT(DISTINCT c.id) >= 2 THEN 'Valuable Customer'
+        WHEN SUM(c.total) >= 400 OR COUNT(DISTINCT c.id) >= 2 THEN 'Regular Customer'
+        ELSE 'Low-Value Customer'
+    END as customer_value_segment,
+    -- Efficiency metrics
+    ROUND(SUM(c.total) / COUNT(DISTINCT c.id), 2) as revenue_per_order,
+    ROUND(SUM(c.totalQuantity) / COUNT(DISTINCT c.id), 1) as items_per_order
+FROM users u
+INNER JOIN carts c ON u.id = c.userId
+WHERE c.total > 0  -- Only actual purchases
+GROUP BY u.id, u.firstName, u.lastName, u.age
+HAVING COUNT(DISTINCT c.id) >= 1  -- At least one order
+    AND SUM(c.total) >= 100  -- Minimum spend threshold
+ORDER BY total_spent DESC, total_orders DESC;</div>
+
+            <div class="explanation">
+                <h4>🔍 Step-by-Step Explanation:</h4>
+                <ol>
+                    <li><strong>INNER JOIN:</strong> Connects users with their purchase data (only paying customers)</li>
+                    <li><strong>Multiple CASE statements:</strong> Creates age groups, frequency tiers, and value segments</li>
+                    <li><strong>Mixed aggregations:</strong> COUNT for frequency, SUM for totals, AVG for averages</li>
+                    <li><strong>DISTINCT in COUNT:</strong> Counts unique orders per customer</li>
+                    <li><strong>HAVING clause:</strong> Filters customer groups after aggregation</li>
+                    <li><strong>Business logic:</strong> Combines multiple criteria for customer segmentation</li>
+                    <li><strong>Calculated metrics:</strong> Revenue per order, items per order for efficiency analysis</li>
+                </ol>
+            </div>
+
+            <div class="key-concepts">
+                <strong>SQL Concepts Used:</strong> INNER JOIN, multiple CASE statements, mixed aggregations, DISTINCT, HAVING clause, complex business segmentation logic
+            </div>
+        </div>
+
+        <h2>🎯 Interview Preparation Tips</h2>
+        
+        <div class="business-impact">
+            <h3>How to Explain These Queries in Interviews:</h3>
+            <ol>
+                <li><strong>Start with Business Context:</strong> "The business needed to understand..."</li>
+                <li><strong>Explain Your Approach:</strong> "I chose this method because..."</li>
+                <li><strong>Walk Through Logic:</strong> "First I... then I... finally I..."</li>
+                <li><strong>Mention Trade-offs:</strong> "I could have also used... but this approach is better because..."</li>
+                <li><strong>Show Results Impact:</strong> "This analysis helped identify that..."</li>
+            </ol>
+        </div>
+
+        <div class="key-concepts">
+            <h3>Key SQL Concepts Demonstrated:</h3>
+            <ul>
+                <li><strong>Basic:</strong> SELECT, WHERE, GROUP BY, ORDER BY, aggregation functions</li>
+                <li><strong>Intermediate:</strong> CASE WHEN, JOINs, window functions, subqueries</li>
+                <li><strong>Advanced:</strong> CTEs, LAG function, complex business logic, customer segmentation</li>
+            </ul>
+        </div>
+
+        <h2>📊 Expected Business Insights</h2>
+        
+        <div class="explanation">
+            <h3>What These Queries Will Reveal:</h3>
+            <ul>
+                <li><strong>Query 1:</strong> Electronics and beauty might be top revenue categories</li>
+                <li><strong>Query 2:</strong> Millennials (25-35) likely represent the largest customer segment</li>
+                <li><strong>Query 3:</strong> Premium products with 4.5+ ratings perform best within categories</li>
+                <li><strong>Query 4:</strong> Seasonal trends and category growth patterns</li>
+                <li><strong>Query 5:</strong> 80/20 rule - top 20% of customers generate 80% of revenue</li>
+            </ul>
+        </div>
+
+        <h2>🚀 Next Steps</h2>
+        
+        <div class="business-impact">
+            <p><strong>After running these queries:</strong></p>
+            <ol>
+                <li>Create visualizations in Excel/Tableau</li>
+                <li>Build a dashboard with key KPIs</li>
+                <li>Write business recommendations</li>
+                <li>Prepare presentation for stakeholders</li>
+                <li>Document methodology and assumptions</li>
+            </ol>
+        </div>
+
+        <hr>
+        <p style="text-align: center; color: #6c757d; font-size: 12px;">
+            Created by Salomón Santiago Esquivel | Data Analyst Portfolio | Mexico City, 2025
+        </p>
+    </div>
+</body>
+</html>

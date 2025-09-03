@@ -1,0 +1,328 @@
+=================================================
+📊 SALES PERFORMANCE ANALYTICS - SQL QUERIES CHEAT SHEET
+=================================================
+Project: Sales Performance Analytics Dashboard
+Data Source: DummyJSON API (https://dummyjson.com/)
+Created by: Salomón Santiago Esquivel
+Purpose: Data Analyst Portfolio Project 2 - Mexico Market
+
+=================================================
+🎯 PROJECT OVERVIEW
+=================================================
+
+Business Questions:
+1. Which product categories generate the most revenue?
+2. How do different customer segments behave?
+3. What are our top-performing products by rating and sales?
+4. How do sales trends vary over time?
+5. Who are our most valuable customers?
+
+Data Tables:
+- products: id, title, price, category, brand, rating, stock, discountPercentage
+- users: id, firstName, lastName, age, email, address
+- carts: id, userId, products (array), total, totalProducts, totalQuantity
+
+=================================================
+📋 QUERY 1: REVENUE ANALYSIS BY CATEGORY [EASY]
+=================================================
+
+-- Revenue Analysis by Category
+SELECT 
+    category,
+    COUNT(*) as total_products,
+    AVG(price) as avg_price,
+    SUM(price * stock) as potential_revenue,
+    AVG(rating) as avg_category_rating
+FROM products 
+WHERE stock > 0  -- Only consider products in stock
+GROUP BY category 
+ORDER BY potential_revenue DESC;
+
+EXPLANATION:
+- COUNT(*): Counts products in each category
+- AVG(price): Average price per category  
+- SUM(price * stock): Total potential revenue
+- WHERE stock > 0: Filters out-of-stock items
+- GROUP BY: Groups by category for aggregation
+- ORDER BY: Sorts by highest revenue first
+
+BUSINESS IMPACT: Identifies which categories drive the most revenue
+
+SQL CONCEPTS: Basic aggregation, GROUP BY, WHERE, ORDER BY
+
+=================================================
+📋 QUERY 2: CUSTOMER SEGMENTATION [EASY-MEDIUM]
+=================================================
+
+-- Customer Segmentation by Age Groups
+SELECT 
+    CASE 
+        WHEN age < 25 THEN 'Gen Z (Under 25)'
+        WHEN age BETWEEN 25 AND 35 THEN 'Millennials (25-35)'
+        WHEN age BETWEEN 36 AND 50 THEN 'Gen X (36-50)'
+        ELSE 'Boomers (50+)'
+    END as age_segment,
+    COUNT(*) as customer_count,
+    ROUND(AVG(age), 1) as avg_age,
+    COUNT(*) * 100.0 / (SELECT COUNT(*) FROM users) as percentage_of_total
+FROM users 
+GROUP BY 
+    CASE 
+        WHEN age < 25 THEN 'Gen Z (Under 25)'
+        WHEN age BETWEEN 25 AND 35 THEN 'Millennials (25-35)'
+        WHEN age BETWEEN 36 AND 50 THEN 'Gen X (36-50)'
+        ELSE 'Boomers (50+)'
+    END
+ORDER BY customer_count DESC;
+
+EXPLANATION:
+- CASE WHEN: Creates age segments using conditional logic
+- Subquery: (SELECT COUNT(*) FROM users) gets total for percentage calc
+- ROUND(): Rounds average age to 1 decimal place
+- Percentage calculation: Shows distribution across segments
+
+BUSINESS IMPACT: Enables targeted marketing by generation
+
+SQL CONCEPTS: CASE WHEN, subqueries, percentage calculations, ROUND function
+
+=================================================
+📋 QUERY 3: PRODUCT PERFORMANCE RANKING [MEDIUM]
+=================================================
+
+-- Product Performance with Category Rankings
+SELECT 
+    category,
+    title as product_name,
+    brand,
+    price,
+    rating,
+    stock,
+    discountPercentage as discount_pct,
+    -- Ranking products within their category by rating
+    RANK() OVER (PARTITION BY category ORDER BY rating DESC) as rating_rank,
+    -- Ranking by potential sales (price * stock)
+    RANK() OVER (PARTITION BY category ORDER BY (price * stock) DESC) as revenue_potential_rank,
+    -- Overall performance score combining rating and stock
+    ROUND(rating * stock, 2) as performance_score
+FROM products 
+WHERE stock > 0 
+    AND rating >= 4.0  -- Only high-rated products
+ORDER BY category, rating_rank;
+
+EXPLANATION:
+- RANK() OVER: Window function that ranks within groups
+- PARTITION BY category: Creates separate rankings per category
+- ORDER BY rating DESC: Ranks from highest to lowest rating
+- Two rankings: One by rating, one by revenue potential
+- Performance score: Custom metric (rating × stock)
+- Multiple WHERE: Filters for in-stock AND high-rated products
+
+BUSINESS IMPACT: Identifies top performers within each category
+
+SQL CONCEPTS: Window functions, RANK(), PARTITION BY, multiple conditions
+
+=================================================
+📋 QUERY 4: CATEGORY PERFORMANCE ANALYSIS [MEDIUM]
+=================================================
+
+-- Category Performance Analysis with Price Segmentation
+SELECT 
+    category,
+    -- Price segmentation
+    CASE 
+        WHEN price < 50 THEN 'Budget (Under $50)'
+        WHEN price BETWEEN 50 AND 200 THEN 'Mid-Range ($50-$200)'
+        WHEN price BETWEEN 200 AND 500 THEN 'Premium ($200-$500)'
+        ELSE 'Luxury (Over $500)'
+    END as price_segment,
+    COUNT(*) as product_count,
+    ROUND(AVG(price), 2) as avg_price_in_segment,
+    ROUND(AVG(rating), 2) as avg_rating,
+    SUM(stock) as total_stock_available,
+    -- Stock status analysis
+    SUM(CASE WHEN stock < 10 THEN 1 ELSE 0 END) as low_stock_products,
+    SUM(CASE WHEN stock >= 50 THEN 1 ELSE 0 END) as high_stock_products,
+    -- Revenue potential by segment
+    ROUND(SUM(price * stock), 2) as revenue_potential,
+    -- Market share within category
+    ROUND(COUNT(*) * 100.0 / 
+        (SELECT COUNT(*) FROM products p2 WHERE p2.category = products.category), 2
+    ) as pct_of_category
+FROM products 
+WHERE rating >= 3.0  -- Focus on decent quality products
+GROUP BY 
+    category, 
+    CASE 
+        WHEN price < 50 THEN 'Budget (Under $50)'
+        WHEN price BETWEEN 50 AND 200 THEN 'Mid-Range ($50-$200)'
+        WHEN price BETWEEN 200 AND 500 THEN 'Premium ($200-$500)'
+        ELSE 'Luxury (Over $500)'
+    END
+HAVING COUNT(*) >= 2  -- Only show segments with multiple products
+ORDER BY category, avg_price_in_segment;
+
+EXPLANATION:
+- Price segmentation CASE: Creates meaningful price tiers for analysis
+- Multiple aggregations: COUNT, AVG, SUM working together
+- Conditional counting: SUM(CASE WHEN...) counts products meeting criteria
+- Correlated subquery: Calculates percentage within each category
+- HAVING clause: Filters groups after aggregation (not individual rows)
+- Business logic: Combines price analysis with stock management insights
+
+BUSINESS IMPACT: Shows how categories perform across price ranges and stock levels
+
+SQL CONCEPTS: CASE WHEN, multiple aggregations, conditional counting, correlated subqueries, HAVING clause
+
+=================================================
+📋 QUERY 5: ADVANCED CUSTOMER PURCHASE ANALYSIS [MEDIUM-HARD]
+=================================================
+
+-- Advanced Customer Purchase Pattern Analysis
+SELECT 
+    u.firstName,
+    u.lastName,
+    u.age,
+    -- Age group classification
+    CASE 
+        WHEN u.age < 30 THEN 'Young Adult'
+        WHEN u.age BETWEEN 30 AND 45 THEN 'Prime Adult'  
+        ELSE 'Mature Adult'
+    END as age_group,
+    -- Purchase behavior metrics
+    COUNT(DISTINCT c.id) as total_orders,
+    ROUND(AVG(c.total), 2) as avg_order_value,
+    ROUND(SUM(c.total), 2) as total_spent,
+    SUM(c.totalQuantity) as total_items_bought,
+    -- Purchase frequency analysis
+    CASE 
+        WHEN COUNT(DISTINCT c.id) >= 3 THEN 'Frequent Buyer'
+        WHEN COUNT(DISTINCT c.id) = 2 THEN 'Repeat Customer'
+        ELSE 'One-Time Buyer'
+    END as purchase_frequency,
+    -- Value segmentation
+    CASE 
+        WHEN SUM(c.total) >= 1500 AND COUNT(DISTINCT c.id) >= 3 THEN 'Premium Customer'
+        WHEN SUM(c.total) >= 800 AND COUNT(DISTINCT c.id) >= 2 THEN 'Valuable Customer'
+        WHEN SUM(c.total) >= 400 OR COUNT(DISTINCT c.id) >= 2 THEN 'Regular Customer'
+        ELSE 'Low-Value Customer'
+    END as customer_value_segment,
+    -- Efficiency metrics
+    ROUND(SUM(c.total) / COUNT(DISTINCT c.id), 2) as revenue_per_order,
+    ROUND(SUM(c.totalQuantity) / COUNT(DISTINCT c.id), 1) as items_per_order
+FROM users u
+INNER JOIN carts c ON u.id = c.userId
+WHERE c.total > 0  -- Only actual purchases
+GROUP BY u.id, u.firstName, u.lastName, u.age
+HAVING COUNT(DISTINCT c.id) >= 1  -- At least one order
+    AND SUM(c.total) >= 100  -- Minimum spend threshold
+ORDER BY total_spent DESC, total_orders DESC;
+
+EXPLANATION:
+- INNER JOIN: Connects users with their purchase data (only paying customers)
+- Multiple CASE statements: Creates age groups, frequency tiers, and value segments
+- Mixed aggregations: COUNT for frequency, SUM for totals, AVG for averages
+- DISTINCT in COUNT: Counts unique orders per customer
+- HAVING clause: Filters customer groups after aggregation
+- Business logic: Combines multiple criteria for customer segmentation
+- Calculated metrics: Revenue per order, items per order for efficiency analysis
+
+BUSINESS IMPACT: Identifies customers with best purchasing patterns for retention
+
+SQL CONCEPTS: INNER JOIN, multiple CASE statements, mixed aggregations, DISTINCT, HAVING clause
+
+=================================================
+🎯 INTERVIEW PREPARATION GUIDE
+=================================================
+
+HOW TO EXPLAIN EACH QUERY:
+
+1. START WITH BUSINESS CONTEXT
+   - "The business needed to understand..."
+   - "This analysis helps identify..."
+   - "The stakeholders wanted to know..."
+
+2. EXPLAIN YOUR APPROACH
+   - "I chose this method because..."
+   - "I used a CTE here to make the logic clearer..."
+   - "The window function was necessary because..."
+
+3. WALK THROUGH THE LOGIC
+   - "First, I filtered for..."
+   - "Then I grouped by..."
+   - "Finally, I calculated..."
+
+4. MENTION ALTERNATIVES
+   - "I could have used a subquery, but CTE is more readable"
+   - "Another approach would be..., but this is more efficient"
+
+5. SHOW BUSINESS IMPACT
+   - "This reveals that our top category is..."
+   - "We discovered that 20% of customers generate 80% of revenue"
+   - "This enables targeted marketing campaigns"
+
+=================================================
+🔧 SQL CONCEPTS MASTERED
+=================================================
+
+BASIC LEVEL:
+- SELECT, WHERE, GROUP BY, ORDER BY
+- Aggregation functions (COUNT, SUM, AVG)
+- Basic filtering and sorting
+
+INTERMEDIATE LEVEL:
+- CASE WHEN statements (conditional logic)
+- JOINs (connecting related data)
+- Window functions (RANK, LAG)
+- Subqueries in SELECT clause
+
+ADVANCED LEVEL:
+- CTEs (Common Table Expressions)
+- Complex business logic segmentation
+- Period-over-period analysis
+- Customer lifetime value calculations
+
+=================================================
+📊 EXPECTED BUSINESS INSIGHTS
+=================================================
+
+Query 1: Electronics and beauty categories likely top revenue drivers
+Query 2: Millennials (25-35) probably largest customer segment  
+Query 3: Premium products (4.5+ rating) perform best in categories
+Query 4: Seasonal patterns and category growth trends visible
+Query 5: 80/20 rule - top 20% customers generate 80% revenue
+
+=================================================
+🚀 NEXT STEPS FOR PROJECT
+=================================================
+
+1. Extract data from DummyJSON API
+2. Load data into SQL database (SQLite/PostgreSQL)
+3. Run these queries and document results
+4. Create visualizations in Excel/Tableau
+5. Build dashboard with key KPIs
+6. Write business recommendations
+7. Prepare stakeholder presentation
+
+=================================================
+💡 TIPS FOR MEXICO MARKET
+=================================================
+
+- This level of analysis is ADVANCED for Mexico DA market
+- Focus on business impact, not just technical complexity  
+- Prepare to explain every line of code clearly
+- Emphasize how this drives real business decisions
+- Show progression from simple to complex analysis
+- Demonstrate you understand business first, SQL second
+
+=================================================
+📧 CONTACT INFORMATION
+=================================================
+
+Created by: Salomón Santiago Esquivel
+Email: salo.santiago96@gmail.com
+Location: Mexico City, Mexico
+Portfolio: https://github.com/Salo996/Data-analyst-portfolio
+LinkedIn: salomon-santiago-493002a7
+
+This documentation is part of Project 2: Sales Performance Analytics
+Data Analyst Portfolio - 2025
