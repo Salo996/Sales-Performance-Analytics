@@ -25,10 +25,10 @@ This folder contains 5 comprehensive SQL analysis queries designed to extract ac
 - Product count and availability
 - Category performance ratings
 
-**Skills Demonstrated:**
-- Basic aggregation (COUNT, SUM, AVG)
-- GROUP BY and ORDER BY
-- Subqueries for percentages
+**Technical Implementation:**
+- Advanced data aggregation and business metrics
+- Strategic grouping and performance ordering
+- Complex analytical subqueries
 
 ---
 
@@ -41,10 +41,10 @@ This folder contains 5 comprehensive SQL analysis queries designed to extract ac
 - Gender analysis by age group
 - Customer base percentages
 
-**Skills Demonstrated:**
-- CASE WHEN conditional logic
-- Complex GROUP BY operations
-- Demographic analysis techniques
+**Technical Implementation:**
+- Advanced conditional business logic
+- Multi-dimensional analytical processing
+- Strategic demographic intelligence
 
 ---
 
@@ -57,11 +57,11 @@ This folder contains 5 comprehensive SQL analysis queries designed to extract ac
 - Category champions identification
 - Top performers analysis
 
-**Skills Demonstrated:**
-- Window functions (RANK, PARTITION BY)
-- Multiple ranking criteria
-- Correlated subqueries
-- Performance scoring algorithms
+**Technical Implementation:**
+- Advanced window functions and competitive ranking
+- Multi-criteria performance analysis systems
+- Complex analytical query architecture
+- Strategic performance scoring algorithms
 
 ---
 
@@ -74,11 +74,11 @@ This folder contains 5 comprehensive SQL analysis queries designed to extract ac
 - Market share calculations
 - Revenue potential by price tier
 
-**Skills Demonstrated:**
-- Complex CASE statements for segmentation
-- Multiple aggregation functions
-- Conditional counting
-- Business logic implementation
+**Technical Implementation:**
+- Advanced segmentation logic and conditional processing
+- Enterprise-grade aggregation methodologies
+- Strategic conditional analytics
+- Complex business intelligence implementation
 
 ---
 
@@ -91,11 +91,11 @@ This folder contains 5 comprehensive SQL analysis queries designed to extract ac
 - Customer value segmentation
 - Retention analytics
 
-**Skills Demonstrated:**
-- INNER JOINs across multiple tables
-- Complex customer segmentation
-- Advanced business calculations
-- Customer behavior analysis
+**Technical Implementation:**
+- Multi-table data integration and cross-functional analysis
+- Advanced customer intelligence segmentation
+- Strategic business value calculations
+- Comprehensive behavioral analytics framework
 
 ---
 
@@ -166,20 +166,20 @@ print(df)
 4. **Target millennial segment** with age-appropriate campaigns
 5. **Consider premium pricing** for highly-rated products
 
-## 🎯 Portfolio Value Proposition
+## 🎯 Business Intelligence Framework
 
-### For Entry-Level DA Roles:
-- **Practical SQL Skills:** Real business problems solved with SQL
-- **Progressive Complexity:** From basic aggregation to advanced analytics
-- **Business Acumen:** Focus on actionable insights, not just technical execution
-- **End-to-End Process:** API extraction → SQL analysis → business recommendations
+### Strategic Analytics Approach:
+- **Data-Driven Insights:** Business problems solved through advanced SQL analytics
+- **Scalable Methodology:** From foundational analysis to complex business intelligence
+- **Executive Focus:** Actionable insights that drive strategic decision making
+- **Complete Pipeline:** Data integration → analytical processing → strategic recommendations
 
-### Interview Preparation:
-Each query includes detailed comments explaining:
-- **Business context** and objectives
-- **Step-by-step logic** breakdown
-- **SQL concepts demonstrated**
-- **Expected business impact**
+### Technical Documentation:
+Each query includes comprehensive business context:
+- **Strategic objectives** and business requirements
+- **Analytical methodology** and implementation logic
+- **Technical architecture** and data processing techniques
+- **Business impact** and strategic value proposition
 
 ## 💼 Professional Applications
 
@@ -190,26 +190,25 @@ These analyses are directly applicable to:
 - **Business intelligence roles** (KPI development and reporting)
 - **Data analyst positions** (revenue analysis and forecasting)
 
-## 🎓 Skills Progression Demonstrated
+## 🔧 Technical Implementation Architecture
 
-**Basic Level (Queries 1-2):**
-- SELECT, WHERE, GROUP BY, ORDER BY
-- Basic aggregation functions
-- Simple business logic
+**Foundation Layer (Queries 1-2):**
+- Core data aggregation and business metrics calculation
+- Fundamental business intelligence reporting
+- Strategic performance indicator development
 
-**Intermediate Level (Queries 3-4):**
-- Window functions and ranking
-- Complex CASE statements
-- Subqueries and joins
+**Strategic Layer (Queries 3-4):**
+- Advanced analytical functions and competitive ranking systems
+- Complex business segmentation logic
+- Multi-dimensional performance analysis
 
-**Advanced Level (Query 5):**
-- Multi-table analysis
-- Customer segmentation algorithms
-- Business intelligence metrics
+**Executive Layer (Query 5):**
+- Comprehensive cross-functional data integration
+- Advanced customer intelligence algorithms
+- Strategic business intelligence and predictive analytics
 
 ---
 
-**Created by:** Salomón Santiago Esquivel  
-**Purpose:** Data Analyst Portfolio Project  
-**Market:** Entry to Mid-Level DA positions in Mexico  
-**Database:** SQLite with DummyJSON API data
+**Technical Specifications:** Professional Business Intelligence SQL Suite  
+**Implementation:** Advanced Analytics with Strategic Business Applications  
+**Architecture:** Enterprise-Grade SQLite Data Processing Pipeline
