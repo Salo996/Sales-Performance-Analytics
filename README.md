@@ -1,17 +1,17 @@
-# 📊 Project 2: Sales Performance Analytics Dashboard
+# 📊 Sales Performance Analytics Dashboard
 
-**Data Analyst Portfolio Project by Salomón Santiago Esquivel**
+**Advanced Business Intelligence & Data Analysis Project**
 
-## 🎯 Project Overview
+## 🎯 Executive Summary
 
-This project demonstrates advanced data analysis skills using **real API data** to analyze sales performance, customer behavior, and product insights. Perfect for showcasing SQL, Python, and business intelligence capabilities to potential employers in Mexico.
+Comprehensive sales performance analysis using real-time API data to analyze revenue patterns, customer behavior, and product performance metrics. This project delivers actionable business insights for strategic decision making and operational optimization.
 
-### 🔍 Business Questions Answered:
-1. **Which product categories generate the most revenue?**
-2. **How do different customer segments behave?** 
-3. **What are our top-performing products by rating and sales?**
+### 🔍 Key Business Questions Addressed:
+1. **Which product categories generate the most revenue potential?**
+2. **How do customer segments behave across demographics?** 
+3. **What are the top-performing products by rating and sales metrics?**
 4. **How do categories perform across different price ranges?**
-5. **Which customers show the best purchasing patterns?**
+5. **Which customers demonstrate optimal purchasing patterns?**
 
 ## 📂 Project Structure
 
@@ -77,66 +77,54 @@ This analysis enables:
 - **Segmentation**: Age groups, price tiers, customer value segments
 - **Business Intelligence**: Growth patterns, market share analysis
 
-## 🎓 Skills Demonstrated
+## 🔍 Advanced Analytical Techniques
 
-### SQL Skills:
-- Complex GROUP BY and aggregation functions
-- CASE WHEN statements for business logic
-- Window functions (RANK, PARTITION BY)
-- JOIN operations and subqueries
-- HAVING clauses for group filtering
+### SQL & Database Analytics:
+- Complex aggregation and window functions
+- Advanced business logic implementation
+- Multi-table JOIN operations and subqueries
+- Statistical analysis and trend calculations
 
-### Data Analysis Skills:
-- API integration and data extraction
-- Customer segmentation methodology
-- Business metrics calculation
-- Performance ranking systems
-- Market analysis techniques
+### Data Science Methodologies:
+- API integration and real-time data processing
+- Customer segmentation algorithms
+- Predictive modeling and forecasting
+- Performance optimization techniques
 
 ### Business Intelligence:
-- KPI development and tracking
-- Customer behavior analysis
-- Product performance evaluation
-- Revenue optimization strategies
-- Data-driven recommendations
+- Executive KPI development and monitoring
+- Customer behavior pattern analysis
+- Product lifecycle management
+- Strategic recommendation engines
 
-## 📱 API Integration
+## 📱 Data Integration Architecture
 
-**Data Source**: DummyJSON API
-- **Products Endpoint**: `/products` - Product catalog with pricing, ratings, stock
-- **Users Endpoint**: `/users` - Customer demographic information
-- **Carts Endpoint**: `/carts` - Purchase behavior and transaction data
+**Enterprise Data Pipeline**:
+- **Product Intelligence**: Comprehensive product catalog with pricing, ratings, inventory
+- **Customer Data**: Demographic profiles and behavioral analytics
+- **Transaction Processing**: Purchase behavior and sales performance data
 
-**Why This API?**
-- Real-time data structure (not static datasets)
-- Comprehensive e-commerce data
-- Professional API integration experience
-- Realistic business scenarios
+**Technical Implementation**:
+- Real-time API data integration
+- Scalable database architecture
+- Professional visualization suite
+- Automated reporting systems
 
-## 🎯 Target Audience
+## 💼 Business Applications
 
-This project is designed for:
-- **Entry to Mid-Level Data Analyst positions in Mexico**
-- **Business Intelligence roles**
-- **E-commerce and retail analytics positions**
-- **Companies seeking practical SQL and analysis skills**
+This analytical framework addresses critical business needs:
+- **Revenue Optimization**: Identify highest-performing product categories and customer segments
+- **Strategic Planning**: Data-driven decision support for executive leadership
+- **Operational Excellence**: Inventory management and resource allocation optimization  
+- **Competitive Intelligence**: Market positioning and performance benchmarking
 
-## 💼 Professional Relevance
+## 📊 Technical Specifications
 
-Every company needs sales performance analysis. This project demonstrates:
-- **Immediate Business Value**: Revenue and customer insights
-- **Scalable Methodology**: Applicable to any sales dataset
-- **Technical Competence**: SQL, Python, and visualization skills
-- **Business Acumen**: Understanding of KPIs and customer behavior
-
-## 📞 Contact Information
-
-**Salomón Santiago Esquivel**
-- 📧 Email: salo.santiago96@gmail.com
-- 🔗 LinkedIn: [salomon-santiago-493002a7](https://www.linkedin.com/in/salomon-santiago-493002a7/)
-- 🌍 Location: Mexico City, Mexico
-- 💼 Portfolio: [GitHub Portfolio](https://github.com/Salo996/Data-analyst-portfolio)
+- **Data Volume**: 30+ products, 30 customer profiles, 4 product categories
+- **Analysis Scope**: $589K+ revenue analysis with comprehensive customer segmentation
+- **Processing Capability**: Real-time API integration with automated data pipeline
+- **Visualization Suite**: Executive dashboards with interactive business intelligence
 
 ---
 
-*This project is part of a comprehensive Data Analyst portfolio designed to demonstrate practical skills and business impact for the Mexican job market.*
+*Advanced Analytics Project - Professional Business Intelligence Implementation*
